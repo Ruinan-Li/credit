@@ -1,0 +1,82 @@
+# Component ablation and baseline operator presets matching Tables 3, 7, 11, 12, and 14.
+presets:
+  ugpo:
+    optimization:
+      assignment_operator: ugpo
+    grouping:
+      strategy: item_use
+    grounding:
+      verifier_mode: nli
+    reward:
+      channel_wise_normalization: true
+      use_grounded_use: true
+      use_grounding_check: true
+      use_responsibility_routing: true
+      use_use_channel: true
+      use_cost_channel: true
+    replay:
+      enabled: true
+      use_replay_groups: true
+      use_listwise_groups: true
+
+  wo_grounded_use:
+    grounding:
+      verifier_mode: retrieve_gated
+    reward:
+      use_grounded_use: false
+
+  wo_grounding_check:
+    grounding:
+      verifier_mode: citation_only
+    reward:
+      use_grounding_check: false
+
+  wo_channel_wise_norm:
+    reward:
+      channel_wise_normalization: false
+
+  wo_responsibility_routing:
+    reward:
+      use_responsibility_routing: false
+
+  wo_delayed_use_replay:
+    replay:
+      enabled: false
+
+  wo_item_use_groups:
+    optimization:
+      assignment_operator: exact_state
+    grouping:
+      strategy: exact_state
+
+  wo_use_channel:
+    reward:
+      use_use_channel: false
+
+  wo_cost_channel:
+    reward:
+      use_cost_channel: false
+
+  wo_replay_groups:
+    grouping:
+      strategy: listwise_only
+    replay:
+      use_replay_groups: false
+
+  wo_listwise_groups:
+    grouping:
+      strategy: replay_only
+    replay:
+      use_listwise_groups: false
+
+  outcome_grpo:
+    optimization:
+      assignment_operator: outcome_grpo
+
+  write_local_contrast:
+    optimization:
+      assignment_operator: write_local
+
+  token_overlap_verifier:
+    grounding:
+      verifier_mode: token_overlap
