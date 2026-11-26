@@ -79,8 +79,7 @@ credit/
 Python 3.10+ and PyTorch 2.2+ are required.
 
 ```bash
-git clone https://github.com/Ruinan-Li/credit.git
-cd credit
+# Run from the repository root directory
 pip install -r requirements.txt
 pip install -e .
 ```
