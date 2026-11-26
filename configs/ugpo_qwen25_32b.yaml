@@ -1,0 +1,75 @@
+# Scaling configuration matching Table 2 (Qwen2.5-32B-Instruct).
+experiment_name: ugpo_qwen25_32b
+output_dir: outputs/ugpo_qwen25_32b
+
+memory:
+  max_context_tokens: 131072
+  max_memory_tokens: 8192
+  top_k: 8
+  embedding_model: intfloat/e5-large-v2
+  embedding_dim: 1024
+  eviction_policy: lru
+
+grounding:
+  verifier_model: cross-encoder/nli-deberta-v3-large
+  support_threshold: 0.8
+  verifier_mode: nli
+  batch_size: 32
+  max_length: 512
+  device: auto
+
+grouping:
+  num_item_buckets: 8
+  num_context_quartiles: 4
+  num_difficulty_quintiles: 5
+  delay_bin_edges: [1, 2, 4, 8]
+  min_group_size: 2
+  max_group_size: 8
+  no_use_sentinel: NO-USE
+  strategy: item_use
+  include_difficulty_stratum: true
+  key_perturbation_rate: 0.0
+
+reward:
+  alpha_task: 0.60
+  alpha_use: 0.25
+  alpha_cost: 0.15
+  lambda_spam: 0.5
+  lambda_store: 1.0e-5
+  lambda_ret: 0.02
+  lambda_ctx: 1.0e-5
+  channel_wise_normalization: true
+  use_grounded_use: true
+  use_grounding_check: true
+  use_responsibility_routing: true
+  use_use_channel: true
+  use_cost_channel: true
+
+replay:
+  enabled: true
+  use_replay_groups: true
+  use_listwise_groups: true
+  replay_ratio: 1.0
+  max_replay_age_sessions: 32
+  importance_ratio_min: 0.5
+  importance_ratio_max: 2.0
+  max_queue_size: 100000
+
+optimization:
+  policy_model: Qwen/Qwen2.5-32B-Instruct
+  learning_rate: 1.0e-6
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  num_updates: 500
+  rollouts_per_input: 8
+  effective_batch_size: 64
+  clip_delta: 0.2
+  kl_beta: 0.01
+  max_new_tokens_write: 256
+  max_new_tokens_answer: 512
+  temperature: 0.7
+  top_p: 0.95
+  seed: 42
+  assignment_operator: ugpo
+  bf16: true
+  gradient_checkpointing: true
